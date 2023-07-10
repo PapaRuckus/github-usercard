@@ -68,7 +68,7 @@ function gitCard(arg) {
   name.textContent = arg.name;
   userName.textContent = arg.login;
   location.textContent = arg.location;
-  Profile.textContent = "Profile";
+  Profile.textContent = "Profile: ";
   link.textContent = "Link to profile";
   link.href = arg.html_url;
   followers.textContent = `Followers: ${arg.followers}`;
