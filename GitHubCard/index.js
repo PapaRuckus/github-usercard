@@ -5,13 +5,7 @@ import axios from "axios";
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-axios.get("https://api.github.com/users/PapaRuckus")
-  .then(resp => {
-    console.log(resp.data)
-  })
-  .catch(err => {
-    console.log(err)
-  })
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -36,9 +30,19 @@ axios.get("https://api.github.com/users/PapaRuckus")
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
-// console.log(data.avatar_url);
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell', 'PapaRuckus'];
+for (let i = 0; i < followersArray.length; i++) {
+  getFollow(followersArray[i])
+}
+function getFollow(username) {
+axios
+  .get(`https://api.github.com/users/${username}`)
+  .then((resp) => {
+    document.querySelector(".cards").appendChild(gitCard(resp.data));
+    // console.log(resp.data);
+  })
+  .catch((err) => console.log(err));
+}
   
 
 function gitCard(arg) {
@@ -59,8 +63,29 @@ function gitCard(arg) {
   name.classList.add('name');
   userName.classList.add('usename');
 
-  img.src = data.avatar_url;
-  
+  img.src = arg.avatar_url;
+  img.alt = "github user";
+  name.textContent = arg.name;
+  userName.textContent = arg.login;
+  location.textContent = arg.location;
+  Profile.textContent = "Profile";
+  link.textContent = "Link to profile";
+  link.href = arg.html_url;
+  followers.textContent = `Followers: ${arg.followers}`;
+  following.textContent = `Following: ${arg.following}`;
+  bio.textContent = arg.bio;
+
+  card.appendChild(img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(Profile);
+  Profile.appendChild(link)
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
   return card
 }
 /*
